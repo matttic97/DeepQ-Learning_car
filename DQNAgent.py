@@ -9,7 +9,7 @@ import pickle as pickle
 
 
 class DQNAgent:
-    def __init__(self, gamma, n_actions, epsilon, batch_size, input_dims, min_mem_size,
+    def __init__(self, n_actions, input_dims, gamma=0.95, epsilon=0.6, batch_size=32, min_mem_size=2_000,
                  max_mem_size=25000, update_target_every = 10, epsilon_dec=0.9995, epsilon_min=0.1,
                  agent_path=None, replay_memory_path=None):
         self.action_space = [i for i in range(n_actions)]
@@ -107,5 +107,5 @@ class DQNAgent:
         self.epsilon = max(self.epsilon * self.epsilon_dec, self.epsilon_min)
 
     # Queries main network for Q values given current observation space (environment state)
-    def get_max_q(self, state):
+    def next_action(self, state):
         return np.argmax(self.model.predict(tf.reshape(state, [1, self.input_dims])).flatten())
